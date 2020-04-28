@@ -1,0 +1,85 @@
+﻿<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Project: Word game </title>
+        <style>
+            body { font-family: Arial, sans-serif;}
+            form { font-size: 1.5em;}
+            
+            .scrambled, input, button {
+                font-family: monospace;
+                font-size: 2em;
+            }
+            
+            .correct, .incorrect {
+                display: none;
+                position: absolute;
+                top: 100px;
+                left: 100px;
+                background-color: yellow;
+                font-weight: bold;
+                border: solid 5px red;
+                border-radius: 25px;
+                height: 50px;
+                width: 150px;
+                text-align: center;
+            }
+            
+        </style>
+    </head>
+    <body>
+    
+    <h1>Word game!</h1>
+    
+    <div class="correct"><p>Correct, good job<p></div>
+    <div class="incorrect"><p>Incorrect, try again<p></div>
+    
+    <form id="joke-form">
+        <label>
+            Unscramble these letters to form a word:<br>
+            <span class="scrambled"></span><br>
+            <input type="text" size="10">
+        </label>
+        <button type="submit">Check</button>
+    </form>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script>
+        // when the user submits the form,
+        //   check that their answer is correct
+        //   and show them appropriate message
+        
+        // Options & answers
+        var scrambled = ["doec","deacamy","querest","eckch","bdroaeyk"];
+        var answers = ["code","academy","request","check","keyboard"];
+        
+        // Create a random number to be used for scrambled words
+        var random = Math.floor((Math.random() * 5));
+        
+        //Initial word, shown when loading the page
+        $(".scrambled").text(scrambled[random]);
+        
+        //Eventlistner
+        $("#joke-form").on("submit", function(event){
+            event.preventDefault();
+            var $answer = $(this).find('[type=text]');  //
+            var answer = $answer.val();             //get the submited value
+            if (answer === answers[random]) {
+                //show block correct
+                $('.correct').css("display", "block").fadeOut(2500);
+                //reset to empty value
+                $answer.val("");
+                //create new random number between 0 - 4
+                random = Math.floor((Math.random() * 5));
+                //Give new scrambled option
+                $(".scrambled").text(scrambled[random]);
+            } else {
+                //Display incorrect box
+                $(".incorrect").css("display", "block").fadeOut(2500);;
+            }
+        });
+        
+    </script>
+    </body>
+</html>
